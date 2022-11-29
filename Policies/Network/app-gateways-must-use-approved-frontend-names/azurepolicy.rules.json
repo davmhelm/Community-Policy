@@ -1,0 +1,35 @@
+{
+    "if": {
+        "allOf": [
+            {
+                "field": "type",
+                "equals": "Microsoft.Network/applicationGateways"
+            },
+            {
+                "field": "Microsoft.Network/applicationGateways/sku.tier",
+                "like": "*_v2"
+            },
+            {
+                "count": {
+                    "field": "Microsoft.Network/applicationGateways/frontendIPConfigurations[*]",
+                    "where": {
+                        "allOf": [
+                            {
+                                "field": "Microsoft.Network/applicationGateways/frontendIPConfigurations[*].name",
+                                "notEquals": "[parameters('publicFrontendIPConfigurationName')]"
+                            },
+                            {
+                                "field": "Microsoft.Network/applicationGateways/frontendIPConfigurations[*].name",
+                                "notEquals": "[parameters('privateFrontendIPConfigurationName')]"
+                            }
+                        ]
+                    }
+                },
+                "greater": 0
+            }
+        ]
+    },
+    "then": {
+        "effect": "[parameters('effect')]"
+    }
+}

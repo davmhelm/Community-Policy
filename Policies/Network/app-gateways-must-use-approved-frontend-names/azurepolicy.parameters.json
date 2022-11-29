@@ -1,0 +1,30 @@
+{
+    "publicFrontendIPConfigurationName": {
+        "type": "String",
+        "metadata": {
+            "description": "App Gateway must have a public IP frontend configured. Use this parameter to define what that public frontend must be named.",
+            "displayName": "Public Frontend IP Configuration Name"
+        },
+        "defaultValue": "Public"
+    },
+    "privateFrontendIPConfigurationName": {
+        "type": "String",
+        "metadata": {
+            "description": "App Gateway may have a private IP frontend configured. Use this parameter to define what that private frontend must be named.",
+            "displayName": "Private Frontend IP Configuration Name"
+        },
+        "defaultValue": "Private"
+    },
+    "effect": {
+        "type": "String",
+        "metadata": {
+            "displayName": "Effect",
+            "description": "Deny or audit based on compliance level"
+        },
+        "allowedValues": [
+            "Deny",
+            "Audit"
+        ],
+        "defaultValue": "Deny"
+    }
+}

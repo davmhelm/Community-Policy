@@ -3,6 +3,23 @@
     "description": "App Gateway V1 SKUs are not recommended for new deployments.",
     "policyType": "Custom",
     "mode": "All",
+    "metadata": {
+        "category": "Network"
+    },
+    "parameters": {
+        "effect": {
+            "type": "String",
+            "metadata": {
+                "displayName": "Effect",
+                "description": "Deny or audit based on compliance level"
+            },
+            "allowedValues": [
+                "Deny",
+                "Audit"
+            ],
+            "defaultValue": "Deny"
+        }
+    },
     "policyRule": {
         "if": {
             "allOf": [
@@ -20,20 +37,6 @@
         },
         "then": {
             "effect": "[parameters('effect')]"
-        }
-    },
-    "parameters": {
-        "effect": {
-            "type": "String",
-            "metadata": {
-                "displayName": "Effect",
-                "description": "Deny or audit based on compliance level"
-            },
-            "allowedValues": [
-                "Deny",
-                "Audit"
-            ],
-            "defaultValue": "Deny"
         }
     }
 }

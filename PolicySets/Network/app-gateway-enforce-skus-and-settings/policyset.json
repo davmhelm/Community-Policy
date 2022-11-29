@@ -1,0 +1,96 @@
+{
+    "properties": {
+        "displayName": "App Gateway Enforce SKUs and Settings",
+        "policyType": "Custom",
+        "description": "Enforce the use of V2 SKUs for App Gateway, and prevent the use of public IPs for a listener",
+        "metadata": {
+            "category": "Network",
+            "version": "1.0"
+        },
+        "parameters": {
+            "publicFrontendIPConfigurationName": {
+                "type": "string",
+                "metadata": {
+                    "displayName": "Public Frontend IP Configuration Name",
+                    "description": "App Gateway v2 SKUs must have a public IP frontend configured. Use this parameter to define what that public frontend must be named. Attempts to use this frontend for a listener on an App Gateway will be controlled by policy (audit or deny)"
+                },
+                "defaultValue": "Public"
+            },
+            "privateFrontendIPConfigurationName": {
+                "type": "string",
+                "metadata": {
+                    "displayName": "Private Frontend IP Configuration Name",
+                    "description": "App Gateway may have a private IP frontend configured. Use this parameter to define what that private frontend must be named."
+                },
+                "defaultValue": "Private"
+            },
+            "effect": {
+                "type": "string",
+                "metadata": {
+                    "displayName": "Effect",
+                    "description": "Desired impact of the initiative's policies: Deny or Audit."
+                },
+                "allowedValues": [
+                    "Deny",
+                    "Audit"
+                ],
+                "defaultValue": "Deny"
+            }
+        },
+        "policyDefinitions": [
+            {
+                "policyDefinitionReferenceId": "app-gateways-must-use-approved-frontend-names_1",
+                "policyDefinitionId": "/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/policyDefinitions/{policyId}",
+                "parameters": {
+                    "publicFrontendIPConfigurationName": {
+                        "value": "[parameters('publicFrontendIPConfigurationName')]"
+                    },
+                    "privateFrontendIPConfigurationName": {
+                        "value": "[parameters('privateFrontendIPConfigurationName')]"
+                    },
+                    "effect": {
+                        "value": "[parameters('effect')]"
+                    }
+                }
+            },
+            {
+                "policyDefinitionReferenceId": "app-gateways-must-not-use-public-listener_1",
+                "policyDefinitionId": "/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/policyDefinitions/{policyId}",
+                "parameters": {
+                    "publicFrontendIPConfigurationName": {
+                        "value": "[parameters('publicFrontendIPConfigurationName')]"
+                    },
+                    "effect": {
+                        "value": "[parameters('effect')]"
+                    }
+                }
+            },
+            {
+                "policyDefinitionReferenceId": "app-gateways-frontend-names-must-match-purpose_1",
+                "policyDefinitionId": "/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/policyDefinitions/{policyId}",
+                "parameters": {
+                    "publicFrontendIPConfigurationName": {
+                        "value": "[parameters('publicFrontendIPConfigurationName')]"
+                    },
+                    "privateFrontendIPConfigurationName": {
+                        "value": "[parameters('privateFrontendIPConfigurationName')]"
+                    },
+                    "effect": {
+                        "value": "[parameters('effect')]"
+                    }
+                }
+            },
+            {
+                "policyDefinitionReferenceId": "app-gateways-must-not-use-v1-skus_1",
+                "policyDefinitionId": "/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/policyDefinitions/{policyId}",
+                "parameters": {
+                    "effect": {
+                        "value": "[parameters('effect')]"
+                    }
+                }
+            }
+        ]
+    },
+    "type": "Microsoft.Authorization/policySetDefinitions",
+    "name": "app-gateway-enforce-skus-and-settings"
+}

@@ -1,0 +1,53 @@
+[
+    {
+        "policyDefinitionReferenceId": "app-gateways-must-use-approved-frontend-names_1",
+        "policyDefinitionId": "/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/policyDefinitions/{policyId}",
+        "parameters": {
+            "publicFrontendIPConfigurationName": {
+                "value": "[parameters('publicFrontendIPConfigurationName')]"
+            },
+            "privateFrontendIPConfigurationName": {
+                "value": "[parameters('privateFrontendIPConfigurationName')]"
+            },
+            "effect": {
+                "value": "[parameters('effect')]"
+            }
+        }
+    },
+    {
+        "policyDefinitionReferenceId": "app-gateways-must-not-use-public-listener_1",
+        "policyDefinitionId": "/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/policyDefinitions/{policyId}",
+        "parameters": {
+            "publicFrontendIPConfigurationName": {
+                "value": "[parameters('publicFrontendIPConfigurationName')]"
+            },
+            "effect": {
+                "value": "[parameters('effect')]"
+            }
+        }
+    },
+    {
+        "policyDefinitionReferenceId": "app-gateways-frontend-names-must-match-purpose_1",
+        "policyDefinitionId": "/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/policyDefinitions/{policyId}",
+        "parameters": {
+            "publicFrontendIPConfigurationName": {
+                "value": "[parameters('publicFrontendIPConfigurationName')]"
+            },
+            "privateFrontendIPConfigurationName": {
+                "value": "[parameters('privateFrontendIPConfigurationName')]"
+            },
+            "effect": {
+                "value": "[parameters('effect')]"
+            }
+        }
+    },
+    {
+        "policyDefinitionReferenceId": "app-gateways-must-not-use-v1-skus_1",
+        "policyDefinitionId": "/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/policyDefinitions/{policyId}",
+        "parameters": {
+            "effect": {
+                "value": "[parameters('effect')]"
+            }
+        }
+    }
+]

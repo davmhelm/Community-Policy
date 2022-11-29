@@ -1,0 +1,30 @@
+{
+    "publicFrontendIPConfigurationName": {
+        "type": "string",
+        "metadata": {
+            "displayName": "Public Frontend IP Configuration Name",
+            "description": "App Gateway v2 SKUs must have a public IP frontend configured. Use this parameter to define what that public frontend must be named. Attempts to use this frontend for a listener on an App Gateway will be controlled by policy (audit or deny)"
+        },
+        "defaultValue": "Public"
+    },
+    "privateFrontendIPConfigurationName": {
+        "type": "string",
+        "metadata": {
+            "displayName": "Private Frontend IP Configuration Name",
+            "description": "App Gateway may have a private IP frontend configured. Use this parameter to define what that private frontend must be named."
+        },
+        "defaultValue": "Private"
+    },
+    "effect": {
+        "type": "string",
+        "metadata": {
+            "displayName": "Effect",
+            "description": "Desired impact of the initiative's policies: Deny or Audit."
+        },
+        "allowedValues": [
+            "Deny",
+            "Audit"
+        ],
+        "defaultValue": "Deny"
+    }
+}

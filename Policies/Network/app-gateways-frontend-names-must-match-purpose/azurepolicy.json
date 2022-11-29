@@ -3,6 +3,39 @@
     "description": "App Gateway V2 must have a public IP, and can optionally have a private IP. Frontend names must indicate their intended use: public frontend must have a public IP only, private frontend must have a private IP only.",
     "policyType": "Custom",
     "mode": "All",
+    "metadata": {
+        "category": "Network"
+    },
+    "parameters": {
+        "publicFrontendIPConfigurationName": {
+            "type": "String",
+            "metadata": {
+                "description": "App Gateway must have a public IP frontend configured. Use this parameter to define what that public frontend must be named.",
+                "displayName": "Public Frontend IP Configuration Name"
+            },
+            "defaultValue": "Public"
+        },
+        "privateFrontendIPConfigurationName": {
+            "type": "String",
+            "metadata": {
+                "description": "App Gateway may have a private IP frontend configured. Use this parameter to define what that private frontend must be named.",
+                "displayName": "Private Frontend IP Configuration Name"
+            },
+            "defaultValue": "Private"
+        },
+        "effect": {
+            "type": "String",
+            "metadata": {
+                "displayName": "Effect",
+                "description": "Deny or audit based on compliance level"
+            },
+            "allowedValues": [
+                "Deny",
+                "Audit"
+            ],
+            "defaultValue": "Deny"
+        }
+    },
     "policyRule": {
         "if": {
             "allOf": [
@@ -56,36 +89,6 @@
         },
         "then": {
             "effect": "[parameters('effect')]"
-        }
-    },
-    "parameters": {
-        "publicFrontendIPConfigurationName": {
-            "type": "String",
-            "metadata": {
-                "description": "App Gateway must have a public IP frontend configured. Use this parameter to define what that public frontend must be named.",
-                "displayName": "Public Frontend IP Configuration Name"
-            },
-            "defaultValue": "Public"
-        },
-        "privateFrontendIPConfigurationName": {
-            "type": "String",
-            "metadata": {
-                "description": "App Gateway may have a private IP frontend configured. Use this parameter to define what that private frontend must be named.",
-                "displayName": "Private Frontend IP Configuration Name"
-            },
-            "defaultValue": "Private"
-        },
-        "effect": {
-            "type": "String",
-            "metadata": {
-                "displayName": "Effect",
-                "description": "Deny or audit based on compliance level"
-            },
-            "allowedValues": [
-                "Deny",
-                "Audit"
-            ],
-            "defaultValue": "Deny"
         }
     }
 }

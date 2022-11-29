@@ -1,0 +1,55 @@
+{
+    "if": {
+        "allOf": [
+            {
+                "field": "type",
+                "equals": "Microsoft.Network/applicationGateways"
+            },
+            {
+                "field": "Microsoft.Network/applicationGateways/sku.tier",
+                "like": "*_v2"
+            },
+            {
+                "count": {
+                    "field": "Microsoft.Network/applicationGateways/frontendIPConfigurations[*]",
+                    "where": {
+                        "anyOf": [
+                            {
+                                "allOf": [
+                                    {
+                                        "field": "Microsoft.Network/applicationGateways/frontendIPConfigurations[*].name",
+                                        "equals": "[parameters('publicFrontendIPConfigurationName')]"
+                                    },
+                                    {
+                                        "not": {
+                                            "field": "Microsoft.Network/applicationGateways/frontendIPConfigurations[*].publicIPAddress.id",
+                                            "like": "*"
+                                        }
+                                    }
+                                ]
+                            },
+                            {
+                                "allOf": [
+                                    {
+                                        "field": "Microsoft.Network/applicationGateways/frontendIPConfigurations[*].name",
+                                        "equals": "[parameters('privateFrontendIPConfigurationName')]"
+                                    },
+                                    {
+                                        "not": {
+                                            "field": "Microsoft.Network/applicationGateways/frontendIPConfigurations[*].subnet.id",
+                                            "like": "*"
+                                        }
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "greater": 0
+            }
+        ]
+    },
+    "then": {
+        "effect": "[parameters('effect')]"
+    }
+}

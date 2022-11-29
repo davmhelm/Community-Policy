@@ -1,0 +1,27 @@
+{
+    "if": {
+        "allOf": [
+        {
+            "field": "type",
+            "equals": "Microsoft.Network/applicationGateways"
+        },
+        {
+            "field": "Microsoft.Network/applicationGateways/sku.tier",
+            "like": "*_v2"
+        },
+        {
+            "count": {
+                "field": "Microsoft.Network/applicationGateways/httpListeners[*]",
+                "where": {
+                    "field": "Microsoft.Network/applicationGateways/httpListeners[*].frontendIPConfiguration.id",
+                    "equals": "[concat(field('id'), '/frontendIPConfigurations/', parameters('publicFrontendIPConfigurationName'))]"
+                }
+            },
+            "greater": 0
+        }
+        ]
+    },
+    "then": {
+        "effect": "[parameters('effect')]"
+    }
+}

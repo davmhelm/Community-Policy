@@ -1,0 +1,14 @@
+{
+    "effect": {
+        "type": "String",
+        "metadata": {
+            "displayName": "Effect",
+            "description": "Deny or audit based on compliance level"
+        },
+        "allowedValues": [
+            "Deny",
+            "Audit"
+        ],
+        "defaultValue": "Deny"
+    }
+}
