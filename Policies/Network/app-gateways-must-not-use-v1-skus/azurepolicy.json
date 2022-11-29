@@ -1,0 +1,39 @@
+{
+    "displayName": "App Gateways must not use V1 SKUs",
+    "description": "App Gateway V1 SKUs are not recommended for new deployments.",
+    "policyType": "Custom",
+    "mode": "All",
+    "policyRule": {
+        "if": {
+            "allOf": [
+                {
+                    "field": "type",
+                    "equals": "Microsoft.Network/applicationGateways"
+                },
+                {
+                    "not": {
+                        "field": "Microsoft.Network/applicationGateways/sku.tier",
+                        "like": "*_v2"
+                    }
+                }
+            ]
+        },
+        "then": {
+            "effect": "[parameters('effect')]"
+        }
+    },
+    "parameters": {
+        "effect": {
+            "type": "String",
+            "metadata": {
+                "displayName": "Effect",
+                "description": "Deny or audit based on compliance level"
+            },
+            "allowedValues": [
+                "Deny",
+                "Audit"
+            ],
+            "defaultValue": "Deny"
+        }
+    }
+}

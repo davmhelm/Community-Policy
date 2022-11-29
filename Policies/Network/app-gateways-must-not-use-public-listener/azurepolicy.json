@@ -1,0 +1,55 @@
+{
+    "displayName": "App Gateways must not use public listener",
+    "description": "Use in conjunction with 'App Gateways must use approved frontend names' Policy. Block creation of application gateways that have a listener configured to use frontend IP configuration with a public IP.",
+    "policyType": "Custom",
+    "mode": "All",
+    "policyRule": {
+        "if": {
+            "allOf": [
+            {
+                "field": "type",
+                "equals": "Microsoft.Network/applicationGateways"
+            },
+            {
+                "field": "Microsoft.Network/applicationGateways/sku.tier",
+                "like": "*_v2"
+            },
+            {
+                "count": {
+                    "field": "Microsoft.Network/applicationGateways/httpListeners[*]",
+                    "where": {
+                        "field": "Microsoft.Network/applicationGateways/httpListeners[*].frontendIPConfiguration.id",
+                        "equals": "[concat(field('id'), '/frontendIPConfigurations/', parameters('publicFrontendIPConfigurationName'))]"
+                    }
+                },
+                "greater": 0
+            }
+            ]
+        },
+        "then": {
+            "effect": "[parameters('effect')]"
+        }
+    },
+    "parameters": {
+        "publicFrontendIPConfigurationName": {
+            "type": "String",
+            "metadata": {
+                "description": "App Gateway must have a public IP frontend configured. Use this parameter to define what that public frontend must be named.",
+                "displayName": "Public Frontend IP Configuration Name"
+            },
+            "defaultValue": "Public"
+        },
+        "effect": {
+            "type": "String",
+            "metadata": {
+                "displayName": "Effect",
+                "description": "Deny or audit based on compliance level"
+            },
+            "allowedValues": [
+                "Deny",
+                "Audit"
+            ],
+            "defaultValue": "Deny"
+        }
+    }
+}
